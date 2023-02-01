@@ -244,7 +244,7 @@ def lal_eccentric_binary_black_hole_no_spins(
 def _base_lal_cbc_fd_waveform(
         frequency_array, mass_1, mass_2, luminosity_distance, theta_jn, phase,
         a_1=0.0, a_2=0.0, tilt_1=0.0, tilt_2=0.0, phi_12=0.0, phi_jl=0.0,
-        lambda_1=0.0, lambda_2=0.0, eccentricity=0.0, **waveform_kwargs):
+        lambda_1=0.0, lambda_2=0.0, eccentricity=0.0, ZeroParameter=0.0, **waveform_kwargs):
     """ Generate a cbc waveform model using lalsimulation
 
     Parameters
