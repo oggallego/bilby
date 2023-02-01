@@ -904,6 +904,17 @@ def lalsim_SimInspiralWaveformParamsInsertTidalLambda2(
 
     return SimInspiralWaveformParamsInsertTidalLambda2(
         waveform_dictionary, lambda_2)
+  
+def lalsim_SimInspiralWaveformParamsInsertZeroParameter(
+        waveform_dictionary, lambda_2):
+    from lalsimulation import SimInspiralWaveformParamsInsertZeroParameter
+    try:
+        ZeroParameter = float(ZeroParameter)
+    except ValueError:
+        raise ValueError("Unable to convert lambda_2 to float")
+
+    return SimInspiralWaveformParamsInsertZeroParameter(
+        waveform_dictionary, ZeroParameter)
 
 
 def spline_angle_xform(delta_psi):
