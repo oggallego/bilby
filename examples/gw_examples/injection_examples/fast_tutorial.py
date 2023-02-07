@@ -70,8 +70,9 @@ priors['geocent_time'] = bilby.core.prior.Uniform(
     maximum=injection_parameters['geocent_time'] + 1,
     name='geocent_time', latex_label='$t_c$', unit='$s$')
 for key in ['a_1', 'a_2', 'tilt_1', 'tilt_2', 'phi_12', 'phi_jl', 'psi', 'ra',
-            'dec', 'geocent_time', 'phase']:
+            'dec', 'geocent_time', 'phase', 'ZeroParameter']:
     priors[key] = injection_parameters[key]
+    priors['ZeroParameter'] = bilby.core.prior.Uniform(0,1)
 
 # Initialise the likelihood by passing in the interferometer data (ifos) and
 # the waveform generator
