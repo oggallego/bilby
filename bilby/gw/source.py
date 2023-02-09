@@ -304,8 +304,8 @@ def _base_lal_cbc_fd_waveform(
     )
     
      if 'ZeroParameter' in waveform_kwargs:
-      waveform_dictionary['ZeroParameter'] = ZeroParameter
-      print('I have recieved the parameter.')
+       waveform_dictionary['ZeroParameter'] = ZeroParameter
+       print('I have recieved the parameter.')
 
     approximant = lalsim_GetApproximantFromString(waveform_approximant)
 
