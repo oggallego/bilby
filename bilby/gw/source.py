@@ -303,7 +303,7 @@ def _base_lal_cbc_fd_waveform(
         'lal_waveform_dictionary', lal.CreateDict()
     )
     
-     if 'ZeroParameter' in waveform_kwargs:
+    if 'ZeroParameter' in waveform_kwargs:
        waveform_dictionary['ZeroParameter'] = ZeroParameter
        print('I have recieved the parameter.')
 
