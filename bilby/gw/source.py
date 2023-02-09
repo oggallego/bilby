@@ -298,9 +298,14 @@ def _base_lal_cbc_fd_waveform(
     pn_tidal_order = waveform_kwargs['pn_tidal_order']
     pn_phase_order = waveform_kwargs['pn_phase_order']
     pn_amplitude_order = waveform_kwargs['pn_amplitude_order']
+    ZeroParameter = waveform_kwargs['ZeroParameter']
     waveform_dictionary = waveform_kwargs.get(
         'lal_waveform_dictionary', lal.CreateDict()
     )
+    
+     if 'ZeroParameter' in waveform_kwargs:
+      waveform_dictionary['ZeroParameter'] = ZeroParameter
+      print('I have recieved the parameter.')
 
     approximant = lalsim_GetApproximantFromString(waveform_approximant)
 
@@ -322,7 +327,7 @@ def _base_lal_cbc_fd_waveform(
     iota, spin_1x, spin_1y, spin_1z, spin_2x, spin_2y, spin_2z = bilby_to_lalsimulation_spins(
         theta_jn=theta_jn, phi_jl=phi_jl, tilt_1=tilt_1, tilt_2=tilt_2,
         phi_12=phi_12, a_1=a_1, a_2=a_2, mass_1=mass_1, mass_2=mass_2,
-        reference_frequency=reference_frequency, phase=phase)
+        reference_frequency=reference_frequency, phase=phase, ZeroParameter=ZeroParameter)
 
     longitude_ascending_nodes = 0.0
     mean_per_ano = 0.0
@@ -363,7 +368,7 @@ def _base_lal_cbc_fd_waveform(
     try:
         hplus, hcross = wf_func(
             mass_1, mass_2, spin_1x, spin_1y, spin_1z, spin_2x, spin_2y,
-            spin_2z, luminosity_distance, iota, phase,
+            spin_2z, luminosity_distance, iota, phase, ZeroParameter,
             longitude_ascending_nodes, eccentricity, mean_per_ano, delta_frequency,
             start_frequency, maximum_frequency, reference_frequency,
             waveform_dictionary, approximant)
@@ -377,7 +382,7 @@ def _base_lal_cbc_fd_waveform(
                                          spin_1=(spin_1x, spin_2y, spin_1z),
                                          spin_2=(spin_2x, spin_2y, spin_2z),
                                          luminosity_distance=luminosity_distance,
-                                         iota=iota, phase=phase,
+                                         iota=iota, phase=phase, ZeroParameter=ZeroParameter,
                                          eccentricity=eccentricity,
                                          start_frequency=start_frequency)
                 logger.warning("Evaluating the waveform failed with error: {}\n".format(e) +
