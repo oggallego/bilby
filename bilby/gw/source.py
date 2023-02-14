@@ -82,7 +82,7 @@ def lal_binary_black_hole(
         waveform_approximant='IMRPhenomPv2', reference_frequency=50.0,
         minimum_frequency=20.0, maximum_frequency=frequency_array[-1],
         catch_waveform_errors=False, pn_spin_order=-1, pn_tidal_order=-1,
-        pn_phase_order=-1, pn_amplitude_order=0)
+        pn_phase_order=-1, pn_amplitude_order=0, ZeroParameter=0)
     waveform_kwargs.update(kwargs)
     return _base_lal_cbc_fd_waveform(
         frequency_array=frequency_array, mass_1=mass_1, mass_2=mass_2,
@@ -303,7 +303,7 @@ def _base_lal_cbc_fd_waveform(
     waveform_dictionary = waveform_kwargs.get(
         'lal_waveform_dictionary', lal.CreateDict()
     )
-    if 'ZeroParameter' in wwaveform_kwargs:
+    if 'ZeroParameter' in waveform_kwargs:
       waveform_dictionary['ZeroParameter'] = ZeroParameter
       print('I have recieved the parameter.')
 
@@ -327,7 +327,7 @@ def _base_lal_cbc_fd_waveform(
     iota, spin_1x, spin_1y, spin_1z, spin_2x, spin_2y, spin_2z = bilby_to_lalsimulation_spins(
         theta_jn=theta_jn, phi_jl=phi_jl, tilt_1=tilt_1, tilt_2=tilt_2,
         phi_12=phi_12, a_1=a_1, a_2=a_2, mass_1=mass_1, mass_2=mass_2,
-        reference_frequency=reference_frequency, phase=phase, ZeroParameter = ZeroParameter)
+        reference_frequency=reference_frequency, phase=phase)
 
     longitude_ascending_nodes = 0.0
     mean_per_ano = 0.0
@@ -344,6 +344,8 @@ def _base_lal_cbc_fd_waveform(
         waveform_dictionary, lambda_1)
     lalsim_SimInspiralWaveformParamsInsertTidalLambda2(
         waveform_dictionary, lambda_2)
+    lalsim_SimInspiralWaveformParamsInsertPhenomZPHMZeroParameter(
+        waveform_dictionary, int(ZeroParameter)
 
     for key, value in waveform_kwargs.items():
         func = getattr(lalsim, "SimInspiralWaveformParamsInsert" + key, None)
@@ -368,7 +370,7 @@ def _base_lal_cbc_fd_waveform(
     try:
         hplus, hcross = wf_func(
             mass_1, mass_2, spin_1x, spin_1y, spin_1z, spin_2x, spin_2y,
-            spin_2z, luminosity_distance, iota, phase, ZeroParameter,
+            spin_2z, luminosity_distance, iota, phase,
             longitude_ascending_nodes, eccentricity, mean_per_ano, delta_frequency,
             start_frequency, maximum_frequency, reference_frequency,
             waveform_dictionary, approximant)
@@ -382,7 +384,7 @@ def _base_lal_cbc_fd_waveform(
                                          spin_1=(spin_1x, spin_2y, spin_1z),
                                          spin_2=(spin_2x, spin_2y, spin_2z),
                                          luminosity_distance=luminosity_distance,
-                                         iota=iota, phase=phase, ZeroParameter=ZeroParameter,
+                                         iota=iota, phase=phase,
                                          eccentricity=eccentricity,
                                          start_frequency=start_frequency)
                 logger.warning("Evaluating the waveform failed with error: {}\n".format(e) +
