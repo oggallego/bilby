@@ -345,7 +345,7 @@ def _base_lal_cbc_fd_waveform(
     lalsim_SimInspiralWaveformParamsInsertTidalLambda2(
         waveform_dictionary, lambda_2)
     lalsim_SimInspiralWaveformParamsInsertPhenomZPHMZeroParameter(
-        waveform_dictionary, int(ZeroParameter)
+        waveform_dictionary, int(ZeroParameter))
 
     for key, value in waveform_kwargs.items():
         func = getattr(lalsim, "SimInspiralWaveformParamsInsert" + key, None)
