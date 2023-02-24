@@ -165,8 +165,8 @@ class WaveformGenerator(object):
         if self.parameters == self._cache['parameters'] and self._cache['model'] == model and \
                 self._cache['transformed_model'] == transformed_model:
             return self._cache['waveform']
-        if 'ZeroParameter'in parameters:
-            self.waveform_arguments['ZeroParameter'] = parameters['ZeroParameter']
+        #if 'ZeroParameter'in parameters:
+            #self.waveform_arguments['ZeroParameter'] = parameters['ZeroParameter']
         if model is not None:
             model_strain = self._strain_from_model(model_data_points, model)
         elif transformed_model is not None:

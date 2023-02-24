@@ -34,7 +34,7 @@ injection_parameters = dict(
     phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, ZeroParameter=0)
 
 # Fixed arguments passed into the source model
-waveform_arguments = dict(waveform_approximant='IMRPhenomPv2',
+waveform_arguments = dict(waveform_approximant='IMRPhenomZPHM',
                           reference_frequency=50., minimum_frequency=20.)
 
 # Create the waveform_generator using a LAL BinaryBlackHole source function
@@ -72,7 +72,7 @@ priors['geocent_time'] = bilby.core.prior.Uniform(
 for key in ['a_1', 'a_2', 'tilt_1', 'tilt_2', 'phi_12', 'phi_jl', 'psi', 'ra',
             'dec', 'geocent_time', 'phase', 'ZeroParameter']:
     priors[key] = injection_parameters[key]
-    priors['ZeroParameter'] = bilby.core.prior.Uniform(0,1)
+priors['ZeroParameter'] = bilby.core.prior.Uniform(0,1)
 
 # Initialise the likelihood by passing in the interferometer data (ifos) and
 # the waveform generator
@@ -81,7 +81,7 @@ likelihood = bilby.gw.GravitationalWaveTransient(
 
 # Run sampler.  In this case we're going to use the `dynesty` sampler
 result = bilby.run_sampler(
-    likelihood=likelihood, priors=priors, sampler='dynesty', npoints=1000,
+    likelihood=likelihood, priors=priors, sampler='Nessai', npoints=1000,
     injection_parameters=injection_parameters, outdir=outdir, label=label)
 
 # Make a corner plot.

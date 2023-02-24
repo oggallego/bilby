@@ -303,9 +303,9 @@ def _base_lal_cbc_fd_waveform(
     waveform_dictionary = waveform_kwargs.get(
         'lal_waveform_dictionary', lal.CreateDict()
     )
-    if 'ZeroParameter' in waveform_kwargs:
-      waveform_dictionary['ZeroParameter'] = ZeroParameter
-      print('I have recieved the parameter.')
+    #if 'ZeroParameter' in waveform_kwargs:
+      #waveform_dictionary['ZeroParameter'] = ZeroParameter
+      #print('I have recieved the parameter.')
 
     approximant = lalsim_GetApproximantFromString(waveform_approximant)
 
@@ -344,7 +344,7 @@ def _base_lal_cbc_fd_waveform(
         waveform_dictionary, lambda_1)
     lalsim_SimInspiralWaveformParamsInsertTidalLambda2(
         waveform_dictionary, lambda_2)
-    lalsim_SimInspiralWaveformParamsInsertPhenomZPHMZeroParameter(
+    lalsim.SimInspiralWaveformParamsInsertPhenomZPHMZeroParameter(
         waveform_dictionary, int(ZeroParameter))
 
     for key, value in waveform_kwargs.items():
