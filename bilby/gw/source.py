@@ -72,7 +72,7 @@ def lal_binary_black_hole(
           However, waveform_arguments =
           dict(waveform_approximant='IMRPhenomXHM', mode_array=[[2,2],[4,-4]])
           returns the 22 and 4-4 of IMRPhenomXHM.
-        - ZeroParameter
+        - lambdaG
 
     Returns
     =======
@@ -82,7 +82,7 @@ def lal_binary_black_hole(
         waveform_approximant='IMRPhenomPv2', reference_frequency=50.0,
         minimum_frequency=20.0, maximum_frequency=frequency_array[-1],
         catch_waveform_errors=False, pn_spin_order=-1, pn_tidal_order=-1,
-        pn_phase_order=-1, pn_amplitude_order=0, ZeroParameter=0)
+        pn_phase_order=-1, pn_amplitude_order=0,lambdaG=0)
     waveform_kwargs.update(kwargs)
     return _base_lal_cbc_fd_waveform(
         frequency_array=frequency_array, mass_1=mass_1, mass_2=mass_2,
@@ -299,7 +299,7 @@ def _base_lal_cbc_fd_waveform(
     pn_tidal_order = waveform_kwargs['pn_tidal_order']
     pn_phase_order = waveform_kwargs['pn_phase_order']
     pn_amplitude_order = waveform_kwargs['pn_amplitude_order']
-    ZeroParameter = waveform_kwargs['ZeroParameter']
+    lambdaG = waveform_kwargs['lambdaG']
     waveform_dictionary = waveform_kwargs.get(
         'lal_waveform_dictionary', lal.CreateDict()
     )
@@ -344,8 +344,8 @@ def _base_lal_cbc_fd_waveform(
         waveform_dictionary, lambda_1)
     lalsim_SimInspiralWaveformParamsInsertTidalLambda2(
         waveform_dictionary, lambda_2)
-    lalsim.SimInspiralWaveformParamsInsertPhenomZPHMZeroParameter(
-        waveform_dictionary, int(ZeroParameter))
+    lalsim.SimInspiralWaveformParamsInsertPhenomZPHMLambdaG(
+        waveform_dictionary, int(lambdaG))
 
     for key, value in waveform_kwargs.items():
         func = getattr(lalsim, "SimInspiralWaveformParamsInsert" + key, None)
