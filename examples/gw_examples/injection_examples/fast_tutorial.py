@@ -31,7 +31,7 @@ np.random.seed(88170235)
 injection_parameters = dict(
     mass_1=36., mass_2=29., a_1=0.4, a_2=0.3, tilt_1=0.5, tilt_2=1.0,
     phi_12=1.7, phi_jl=0.3, luminosity_distance=2000., theta_jn=0.4, psi=2.659,
-    phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, lambdaG=0)
+    phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, log_lambdaG=10^16)
 
 # Fixed arguments passed into the source model
 waveform_arguments = dict(waveform_approximant='IMRPhenomZPHM',
@@ -70,9 +70,9 @@ priors['geocent_time'] = bilby.core.prior.Uniform(
     maximum=injection_parameters['geocent_time'] + 1,
     name='geocent_time', latex_label='$t_c$', unit='$s$')
 for key in ['a_1', 'a_2', 'tilt_1', 'tilt_2', 'phi_12', 'phi_jl', 'psi', 'ra',
-            'dec', 'geocent_time', 'phase', 'lambdaG']:
+            'dec', 'geocent_time', 'phase', 'log_lambdaG']:
     priors[key] = injection_parameters[key]
-priors['lambdaG'] = bilby.core.prior.Uniform((1*10^15),(1*10^16))
+priors['log_lambdaG'] = bilby.core.prior.LogUniform((1*10^15),(1*10^16))
 
 # Initialise the likelihood by passing in the interferometer data (ifos) and
 # the waveform generator
