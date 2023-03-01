@@ -202,7 +202,7 @@ def rejection_sample(posterior, weights):
 
 
 def reweight(result, label=None, new_likelihood=None, new_prior=None,
-             old_likelihood=None, old_prior=None, conversion_function=None, npool=1,
+             old_likelihood=None, old_prior=None, conversion_function=None, npool=4,
              verbose_output=False, resume_file=None, n_checkpoint=5000,
              use_nested_samples=False):
     """ Reweight a result to a new likelihood/prior using rejection sampling
@@ -1407,7 +1407,7 @@ class Result(object):
         return posterior
 
     def samples_to_posterior(self, likelihood=None, priors=None,
-                             conversion_function=None, npool=1):
+                             conversion_function=None, npool=4):
         """
         Convert array of samples to posterior (a Pandas data frame)
 

@@ -132,7 +132,7 @@ class Bilby_MCMC(MCMCSampler):
         autocorr_c=5,
         L1steps=100,
         L2steps=3,
-        npool=1,
+        npool=4,
         printdt=60,
         min_tau=1,
         proposal_cycle="default",
@@ -263,7 +263,7 @@ class Bilby_MCMC(MCMCSampler):
         if ptsampler.pool is not None:
             npool = ptsampler.pool._processes
         else:
-            npool = 1
+            npool = 4
         result.meta_data["run_statistics"] = dict(
             nlikelihood=ptsampler.position * ptsampler.L1steps * ptsampler._nsamplers,
             neffsamples=ptsampler.nsamples * ptsampler.convergence_inputs.thin_by_nact,
@@ -381,7 +381,7 @@ class Bilby_MCMC(MCMCSampler):
         Make sure that if a pool of jobs is running only the parent tries to
         checkpoint and exit. Only the parent has a 'pool' attribute.
         """
-        if self.npool == 1 or getattr(self, "pool", None) is not None:
+        if self.npool == 4 or getattr(self, "pool", None) is not None:
             if signum == 14:
                 logger.info(
                     "Run interrupted by alarm signal {}: checkpoint and exit on {}".format(
@@ -533,7 +533,7 @@ class Bilby_MCMC(MCMCSampler):
                     )
 
     def _setup_pool(self):
-        if self.npool > 1:
+        if self.npool > 4:
             logger.info(f"Setting up multiproccesing pool with {self.npool} processes")
             import multiprocessing
 

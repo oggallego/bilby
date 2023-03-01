@@ -29,9 +29,9 @@ np.random.seed(88170235)
 # parameters, including masses of the two black holes (mass_1, mass_2),
 # spins of both black holes (a, tilt, phi), etc.
 injection_parameters = dict(
-    mass_1=36., mass_2=29., a_1=0.4, a_2=0.3, tilt_1=0.5, tilt_2=1.0,
+    mass_1=2., mass_2=24., a_1=0.4, a_2=0.3, tilt_1=0.5, tilt_2=1.0,
     phi_12=1.7, phi_jl=0.3, luminosity_distance=2000., theta_jn=0.4, psi=2.659,
-    phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, log_lambdaG=10^16)
+    phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, lambdaG=1e15)
 
 # Fixed arguments passed into the source model
 waveform_arguments = dict(waveform_approximant='IMRPhenomZPHM',
@@ -70,9 +70,10 @@ priors['geocent_time'] = bilby.core.prior.Uniform(
     maximum=injection_parameters['geocent_time'] + 1,
     name='geocent_time', latex_label='$t_c$', unit='$s$')
 for key in ['a_1', 'a_2', 'tilt_1', 'tilt_2', 'phi_12', 'phi_jl', 'psi', 'ra',
-            'dec', 'geocent_time', 'phase', 'log_lambdaG']:
+            'dec', 'geocent_time', 'phase', 'lambdaG']:
     priors[key] = injection_parameters[key]
-priors['log_lambdaG'] = bilby.core.prior.LogUniform((1*10^15),(1*10^16))
+priors['lambdaG'] = bilby.core.prior.Uniform(minimum=1e15, maximum=1e19, name='lambdaG', latex_label='$\lambda_G$')
+#priors['redshift'] = bilby.core.prior.Uniform(0,1)
 
 # Initialise the likelihood by passing in the interferometer data (ifos) and
 # the waveform generator
@@ -84,5 +85,42 @@ result = bilby.run_sampler(
     likelihood=likelihood, priors=priors, sampler='Nessai', npoints=1000,
     injection_parameters=injection_parameters, outdir=outdir, label=label)
 
+
 # Make a corner plot.
 result.plot_corner()
+
+#parameters = ["mass_ratio", "chirp_mass", "luminosity_distance", "theta_jn"]
+#parameters.append(bilby.core.prior.Constraint(name="log_lambdaG", minimum=np.log10(1e15), maximum=np.log10(1e19)))
+#result.plot_corner(parameters=parameters, truths=injection_parameters)
+
+#print(result.priors.keys())
+
+#result.plot_corner(parameters=["mass_ratio", "chirp_mass", "luminosity_distance", "theta_jn", "lambdaG"], include_log=True,
+                   #log_args={'lambdaG': {'base': 10, 'label': r'$\log_{10}(\lambdaG)$'}})
+
+
+
+#result.plot_corner(parameters=["mass_ratio", "chirp_mass", "luminosity_distance", "theta_jn", "lambdaG"],
+                   #priors=priors, truths=[41.5, 32.5, 440, 0.4, np.log10(1e15)], show_titles=True,
+                   #title_kwargs={'fontsize': 12}, labels=None,
+                   #label_kwargs={'fontsize': 16}, truths_kwargs={'color': 'blue'},
+                   #hist_kwargs={'density': True}, kde_kwargs={'cut': 3, 'bw': 'scott'},
+                   #quantiles=[0.025, 0.5, 0.975], include_log=True,
+                   #log_args={'lambdaG': {'base': 10, 'label': r'$\log_{10}(\lambdaG)$'}})
+
+#result.plot_corner(parameters=["mass_ratio", "chirp_mass", "luminosity_distance", "theta_jn", "lambdaG"],
+                    #truths=[41.5, 32.5, 440, 0.4, np.log10(1e10)],
+                    #truth_color='red', show_titles=True, title_kwargs={'fontsize': 12})
+
+
+
+
+#lambdaG_samples = result.posterior['lambdaG']
+#print(lambdaG_samples[:10])
+
+#median = np.median(lambdaG_samples)
+#lower, upper = np.percentile(lambdaG_samples, [5, 95])
+#print(f"Median lambdaG = {median:.2f} ({lower:.2f} - {upper:.2f})")
+
+# Set the range of the plot based on the 5th and 95th percentiles of the posterior
+#lims = [(np.percentile(lambdaG_samples, q=5), np.percentile(lambdaG_samples, q=95))]

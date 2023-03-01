@@ -69,7 +69,7 @@ priors = bilby.gw.prior.BBHPriorDict(filename='GW150914.prior')
 waveform_generator = bilby.gw.WaveformGenerator(
     frequency_domain_source_model=bilby.gw.source.lal_binary_black_hole,
     parameter_conversion=bilby.gw.conversion.convert_to_lal_binary_black_hole_parameters,
-    waveform_arguments={'waveform_approximant': 'IMRPhenomPv2',
+    waveform_arguments={'waveform_approximant': 'IMRPhenomZPHM',
                         'reference_frequency': 50})
 
 # In this step, we define the likelihood. Here we use the standard likelihood
@@ -81,7 +81,7 @@ likelihood = bilby.gw.likelihood.GravitationalWaveTransient(
 # Finally, we run the sampler. This function takes the likelihood and prior
 # along with some options for how to do the sampling and how to save the data
 result = bilby.run_sampler(
-    likelihood, priors, sampler='dynesty', outdir=outdir, label=label,
+    likelihood, priors, sampler='Nessai', outdir=outdir, label=label,
     nlive=1000, walks=100, n_check_point=10000, check_point_plot=True,
     conversion_function=bilby.gw.conversion.generate_all_bbh_parameters)
 result.plot_corner()

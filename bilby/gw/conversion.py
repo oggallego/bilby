@@ -833,7 +833,7 @@ def _generate_all_cbc_parameters(sample, defaults, base_conversion,
     return output_sample
 
 
-def generate_all_bbh_parameters(sample, likelihood=None, priors=None, npool=1):
+def generate_all_bbh_parameters(sample, likelihood=None, priors=None, npool=4):
     """
     From either a single sample or a set of samples fill in all missing
     BBH parameters, in place.
@@ -859,7 +859,7 @@ def generate_all_bbh_parameters(sample, likelihood=None, priors=None, npool=1):
     return output_sample
 
 
-def generate_all_bns_parameters(sample, likelihood=None, priors=None, npool=1):
+def generate_all_bns_parameters(sample, likelihood=None, priors=None, npool=4):
     """
     From either a single sample or a set of samples fill in all missing
     BNS parameters, in place.
@@ -1179,7 +1179,7 @@ def compute_snrs(sample, likelihood):
 
 
 def generate_posterior_samples_from_marginalized_likelihood(
-        samples, likelihood, npool=1):
+        samples, likelihood, npool=4):
     """
     Reconstruct the distance posterior from a run which used a likelihood which
     explicitly marginalised over time/distance/phase.
@@ -1216,7 +1216,7 @@ def generate_posterior_samples_from_marginalized_likelihood(
     logger.info('Reconstructing marginalised parameters.')
 
     fill_args = [(ii, row, likelihood) for ii, row in samples.iterrows()]
-    if npool > 1:
+    if npool > 4:
         pool = multiprocessing.Pool(processes=npool)
         logger.info(
             "Using a pool with size {} for nsamples={}"
