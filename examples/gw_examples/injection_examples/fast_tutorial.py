@@ -85,6 +85,14 @@ result = bilby.run_sampler(
     likelihood=likelihood, priors=priors, sampler='Nessai', npoints=1000,
     injection_parameters=injection_parameters, outdir=outdir, label=label)
 
+lambdaG_sample = result.posterior['lambdaG']
+print(lambdaG_sample[:10])
+lambdaG_log = np.log(lambdaG_sample)
+print(lambdaG_log[:10])
+
+result.posterior['lambdaG'] = lambdaG_log
+print(result.posterior['lambdaG'])
+
 
 # Make a corner plot.
 result.plot_corner()
@@ -99,7 +107,6 @@ result.plot_corner()
                    #log_args={'lambdaG': {'base': 10, 'label': r'$\log_{10}(\lambdaG)$'}})
 
 
-
 #result.plot_corner(parameters=["mass_ratio", "chirp_mass", "luminosity_distance", "theta_jn", "lambdaG"],
                    #priors=priors, truths=[41.5, 32.5, 440, 0.4, np.log10(1e15)], show_titles=True,
                    #title_kwargs={'fontsize': 12}, labels=None,
@@ -112,11 +119,6 @@ result.plot_corner()
                     #truths=[41.5, 32.5, 440, 0.4, np.log10(1e10)],
                     #truth_color='red', show_titles=True, title_kwargs={'fontsize': 12})
 
-
-
-
-#lambdaG_samples = result.posterior['lambdaG']
-#print(lambdaG_samples[:10])
 
 #median = np.median(lambdaG_samples)
 #lower, upper = np.percentile(lambdaG_samples, [5, 95])

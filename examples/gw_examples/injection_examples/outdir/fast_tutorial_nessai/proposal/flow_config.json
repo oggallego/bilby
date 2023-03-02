@@ -1,0 +1,28 @@
+{
+    "lr": 0.001,
+    "annealing": false,
+    "clip_grad_norm": 5,
+    "batch_size": 1000,
+    "val_size": 0.1,
+    "max_epochs": 500,
+    "patience": 20,
+    "noise_type": null,
+    "noise_scale": null,
+    "use_dataloader": false,
+    "optimiser": "adamw",
+    "optimiser_kwargs": {},
+    "model_config": {
+        "n_inputs": 5,
+        "n_neurons": 10,
+        "n_blocks": 4,
+        "n_layers": 2,
+        "ftype": "RealNVP",
+        "device_tag": "cpu",
+        "flow": "None",
+        "inference_device_tag": null,
+        "kwargs": {
+            "batch_norm_between_layers": true,
+            "linear_transform": "lu"
+        }
+    }
+}
