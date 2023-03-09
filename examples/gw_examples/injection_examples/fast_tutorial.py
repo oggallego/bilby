@@ -29,8 +29,8 @@ np.random.seed(88170235)
 # parameters, including masses of the two black holes (mass_1, mass_2),
 # spins of both black holes (a, tilt, phi), etc.
 injection_parameters = dict(
-    mass_1=2., mass_2=24., a_1=0.4, a_2=0.3, tilt_1=0.5, tilt_2=1.0,
-    phi_12=1.7, phi_jl=0.3, luminosity_distance=2000., theta_jn=0.4, psi=2.659,
+    mass_1=2.6, mass_2=23.2, a_1=0.4, a_2=0.3, tilt_1=0.5, tilt_2=1.0,
+    phi_12=1.7, phi_jl=0.3, luminosity_distance=235., theta_jn=0.4, psi=2.659,
     phase=1.3, geocent_time=1126259642.413, ra=1.375, dec=-1.2108, lambdaG=1e15)
 
 # Fixed arguments passed into the source model
@@ -87,7 +87,7 @@ result = bilby.run_sampler(
 
 lambdaG_sample = result.posterior['lambdaG']
 print(lambdaG_sample[:10])
-lambdaG_log = np.log(lambdaG_sample)
+lambdaG_log = np.log10(lambdaG_sample)
 print(lambdaG_log[:10])
 
 result.posterior['lambdaG'] = lambdaG_log

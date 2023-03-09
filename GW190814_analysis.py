@@ -11,6 +11,7 @@ the LIGO Data Grid instead.
 """
 import bilby
 from gwpy.timeseries import TimeSeries
+import numpy as np
 
 logger = bilby.core.utils.logger
 outdir = 'outdir'
@@ -64,7 +65,7 @@ ifo_list.plot_data(outdir=outdir, label=label)
 # You can overwrite this using the syntax below in the file,
 # or choose a fixed value by just providing a float value as the prior.
 priors = bilby.gw.prior.BBHPriorDict(filename='GW190814.prior')
-priors['lambdaG'] = bilby.core.prior.Uniform(minimum=1e15, maximum=1e19, name='lambdaG', latex_label='$\lambda_G$')
+priors['lambdaG'] = bilby.core.prior.Uniform(minimum=1e15, maximum=1e30, name='lambdaG', latex_label='$\lambda_G$')
 
 # In this step we define a `waveform_generator`. This is the object which
 # creates the frequency-domain strain. In this instance, we are using the
@@ -87,11 +88,11 @@ likelihood = bilby.gw.likelihood.GravitationalWaveTransient(
 # along with some options for how to do the sampling and how to save the data
 result = bilby.run_sampler(
     likelihood, priors, sampler='Nessai', outdir=outdir, label=label,
-    nlive=1000, walks=100, n_check_point=10000, flow_class = "GWFlowProposal", npool=4, check_point_plot=True,
+    nlive=1000, walks=100, n_check_point=10000, npool=4, check_point_plot=True,
     conversion_function=bilby.gw.conversion.generate_all_bbh_parameters)
 
 lambdaG_sample = result.posterior['lambdaG']
-lambdaG_log = np.log(lambdaG_sample)
+lambdaG_log = np.log10(lambdaG_sample)
 result.posterior['lambdaG'] = lambdaG_log
 
 result.plot_corner()
